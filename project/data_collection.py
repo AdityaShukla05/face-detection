@@ -1,5 +1,6 @@
 from statistics import mode
 import cv2
+import numpy as np
 
 
 cam= cv2.VideoCapture(0)
@@ -8,6 +9,7 @@ model = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 face_data = []
 
 skip = 0
+name = input("Enter Your name: ")
 while True:
     ret, frame = cam.read() #takes x,y,h,w of the face
 
@@ -44,3 +46,11 @@ while True:
 
 cam.release()
 cv2.destroyAllWindows()
+
+#convert list of faces to np array
+face_data = np.array(face_data)
+print(face_data.shape)
+face_data = face_data.reshape((face_data.shape[0],-1))
+
+np.save(f"./project/data/{name}.npy",face_data)
+print("Saved")
